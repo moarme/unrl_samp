@@ -18,14 +18,10 @@ UDoorOpener::UDoorOpener()
 void UDoorOpener::BeginPlay()
 {
 	Super::BeginPlay();
-	//for (float i = 0; i < 90; i += 2) {
-		//GetOwner()->
-		AActor *p_owner = GetOwner();
-		FRotator rotation = FRotator(0.0f, 0.0f, 90.0f);
-		float z_rotate = p_owner->GetActorRotation().GetComponentForAxis(EAxis::Type::Z);
-		p_owner->SetActorRotation(*new FQuat(0.0f, 0.0f, z_rotate+2.0f,0.0f));
-	//}
-	
+	AActor *p_owner = GetOwner();
+	FRotator ang_opened = FRotator(0.0f, OpenAngle, 0.0f);
+	float z_rotate = p_owner->GetActorRotation().GetComponentForAxis(EAxis::Type::Z);
+	p_owner->SetActorRotation(ang_opened);
 	// ...
 	
 }
