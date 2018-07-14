@@ -2,6 +2,7 @@
 
 #include "DoorOpener.h"
 #include "GameFramework/Actor.h"
+#include "Engine/World.h"
 
 // Sets default values for this component's properties
 UDoorOpener::UDoorOpener()
@@ -18,12 +19,18 @@ UDoorOpener::UDoorOpener()
 void UDoorOpener::BeginPlay()
 {
 	Super::BeginPlay();
-	AActor *p_owner = GetOwner();
-	FRotator ang_opened = FRotator(0.0f, OpenAngle, 0.0f);
-	float z_rotate = p_owner->GetActorRotation().GetComponentForAxis(EAxis::Type::Z);
-	p_owner->SetActorRotation(ang_opened);
+	keyActor = GetWorld()->GetFirstPlayerController()->GetPawn();
+	//OpenDoor();
 	// ...
 	
+}
+
+void UDoorOpener::OpenDoor()
+{
+	AActor *p_owner = GetOwner();
+	FRotator ang_opened = FRotator(0.0f, OpenAngle, 0.0f);
+	//float z_rotate = p_owner->GetActorRotation().GetComponentForAxis(EAxis::Type::Z);
+	p_owner->SetActorRotation(ang_opened);
 }
 
 
@@ -31,7 +38,8 @@ void UDoorOpener::BeginPlay()
 void UDoorOpener::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
+	if (pressurePlate->IsOverlappingActor(keyActor))
+		OpenDoor();
 	// ...
 }
 
